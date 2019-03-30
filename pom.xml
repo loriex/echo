@@ -26,6 +26,24 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <!-- <dependency>
+      <groupId>org.jfree.chart</groupId>
+      <artifactId>com.springsource.org.jfree.chart</artifactId>
+      <version>1.0.9</version>
+    </dependency> -->
+
+<dependency>
+    <groupId>jfree</groupId>
+    <artifactId>jfreechart</artifactId>
+    <version>1.0.13</version>
+</dependency>
+
+    <!-- <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>com.springsource.javax.servlet</artifactId>
+      <version>2.4.0</version>
+      <scope>provided</scope>
+    </dependency> -->
   </dependencies>
 
   <build>
