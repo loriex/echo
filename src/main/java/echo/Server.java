@@ -58,9 +58,9 @@ class Echor extends Thread {
                     break;
                 }
             }
-            // socketIn.close();
-            // socketOut.close();
-            // socket.close();
+            socketIn.close();
+            socketOut.close();
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

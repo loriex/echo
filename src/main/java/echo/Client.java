@@ -13,13 +13,14 @@ import java.util.Scanner;
 public class Client {
     private static String test;
     private static int count = 0;
+    private static int sendLim = 0;
     private static Scanner scanner = new Scanner(System.in);
     static String getLine() {
         if (test.equals("PROD")) {
             return scanner.nextLine();
         } else {
             ++count;
-            if (count >= 100000) {
+            if (count >= sendLim) {
                 return "stop";
             } else {
                 return "MESSAGE_SEND_TIME " + System.nanoTime();
@@ -35,29 +36,33 @@ public class Client {
         else
             test = "PROD";
         try {
-            Socket socket = new Socket("127.0.0.1", 23333);
-            System.out.println("...connected\n");
+            for (sendLim = 10; sendLim <= 100000; sendLim *= 10) {
+                count = 0;
+                Socket socket = new Socket("127.0.0.1", 23333);
+                System.out.println("...connected\n");
 
-            //a thread that receive data from Server and print it out.
-            Receiver receivier = new Receiver(socket);
-            receivier.start();
+                //a thread that receive data from Server and print it out.
+                Receiver receivier = new Receiver(socket);
+                receivier.start();
 
-            //and here, we loop to get data from keyboard and send it to Server(until you type stop)
-            PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
-            while (true) {
-                String string = getLine();
-                if (string != null) {
-                    socketOut.println(string);
-                    socketOut.flush();
-                }
-                if (string.equals("stop"))
-                    break;
+                PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
+                    
+                //and here, we loop to get data from keyboard and send it to Server(until you type stop)
+                    while (true) {
+                        String string = getLine();
+                        if (string != null) {
+                            socketOut.println(string);
+                            socketOut.flush();
+                        }
+                        if (string.equals("stop"))
+                            break;
+                    }
+                socketOut.flush();
+                //clean resources.
+                //close PrintWriter will lead to close socket(both in & out)
+                //so shutdownOutput(it will only close the **output port** of **client**)
+                socket.shutdownOutput();
             }
-            socketOut.flush();
-            //clean resources.
-            //close PrintWriter will lead to close socket(both in & out)
-            //so shutdownOutput(it will only close the **output port** of **client**)
-            socket.shutdownOutput();
         } catch (IOException e){
             e.printStackTrace();
             System.err.println("Error");
@@ -84,7 +89,7 @@ class Receiver extends Thread {
                 times.add(time_r-time_s);
                 // System.out.println("["+time_s+" , "+time_r+"]");
                 // System.out.println("MESSAGE_RECV_TIME " + time_r);
-                System.out.println(s);
+                // System.out.println(s);
 
             }
             socketIn.close();

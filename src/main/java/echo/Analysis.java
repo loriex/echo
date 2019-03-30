@@ -3,16 +3,6 @@ package echo;
 import java.util.Collections;
 import java.util.List;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
-
 public class Analysis {
     static void Generate(List<Long> times) {
         Collections.sort(times);
@@ -29,6 +19,8 @@ public class Analysis {
             // System.out.println(index);
             count[index] = count[index] + 1;
         }
+
+        System.out.println("COUNT: " + times.size());
         for (int i = 0; i < div; ++i) {
             long l = mi + (ma-mi)/div * i;
             long r = mi + (ma-mi)/div * (i+1);
