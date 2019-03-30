@@ -18,6 +18,7 @@ public class Client {
             Receiver receivier = new Receiver(socket);
             receivier.start();
 
+            System.out.println("PLEASE INPUT YOUR NICKNAME AND PRESS ENTER.");
             //and here, we loop to get data from keyboard and send it to Server(until you type stop)
             PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
             while (true) {
@@ -35,7 +36,6 @@ public class Client {
 
             //clean resources.
             socketOut.close();
-            socket.close();
         } catch (IOException e){
             e.printStackTrace();
             System.err.println("Error");
@@ -59,6 +59,7 @@ class Receiver extends Thread {
                 }
             }
             socketIn.close();
+            s.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
